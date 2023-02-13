@@ -6,7 +6,7 @@ function App(): JSX.Element {
     return (
         <div className="App">
             <header role="bannder" className="App-header">
-                UD CISC275 with React Hooks and TypeScript
+                UD CISC275 with React Hooks and TypeScript. Hello! Welcome
             </header>
             <Container>
                 <Row>
