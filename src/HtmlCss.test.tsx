@@ -28,8 +28,8 @@ describe("Some HTML Elements are added.", () => {
 describe("Some basic CSS is added.", () => {
     test("The background color of the header area is different", () => {
         render(<App />);
-        const banner = screen.getByRole("banner");
-        expect(banner).not.toHaveStyle({
+        const header = screen.getByRole("banner");
+        expect(header).not.toHaveStyle({
             "background-color": "rgb(40, 44, 52)"
         });
     });
