@@ -6,8 +6,8 @@
 export function fahrenheitToCelius(temperature: number): number {
     //first doing f-32
     temperature = temperature - 32;
-    let divisor: number = 5 / 9;
-    let Celsius: number = temperature * divisor;
+    const divisor: number = 5 / 9;
+    const Celsius: number = temperature * divisor;
     return Celsius;
 }
 
@@ -34,7 +34,7 @@ export function add3(first: number, second: number, third: number): number {
  * mark added to the end.
  */
 export function shout(message: string): string {
-    let result = message.toUpperCase();
+    const result = message.toUpperCase();
     return result + "!";
 }
 
