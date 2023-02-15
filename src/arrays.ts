@@ -35,7 +35,13 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    return [];
+    const shorts = amounts.filter((num: string): boolean =>
+        num.startsWith("$")
+    );
+    const numbers = shorts.map((str: string): number =>
+        parseInt(str) > 0 ? parseInt(str) : 0
+    );
+    return numbers;
 };
 
 /**
@@ -44,7 +50,15 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    return [];
+    const fixedStrings = messages.map((str: string): string =>
+        str.endsWith("!") ? str.toUpperCase() : str
+    );
+    //i think the line below is removing everything execpt questions
+    const noQuestions = fixedStrings.filter((question: string): boolean =>
+        question.endsWith("?")
+    );
+
+    return noQuestions;
 };
 
 /**
@@ -52,7 +66,8 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    const shorts = words.filter((word: string): boolean => word.length < 4);
+    return shorts.length;
 }
 
 /**
@@ -61,7 +76,18 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    if (colors.length === 0) {
+        return true;
+    } else {
+        const bland = colors.filter(
+            (color: string): boolean =>
+                color === "blue" || color === "green" || color === "red"
+        );
+        if (bland.length === colors.length) {
+            return true;
+        }
+        return false;
+    }
 }
 
 /**
@@ -72,7 +98,13 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    const total = "";
+    let intTotal = 0;
+    for (const num of addends) {
+        total.concat(total, "+", num.toString());
+        intTotal = intTotal + num;
+    }
+    return intTotal.toString() + "=" + total;
 }
 
 /**
@@ -85,5 +117,15 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    const firstLLowPriceIndex = values.findIndex(
+        (value: number): boolean => value < 0
+    );
+
+    const leftNums = values.slice(0, firstLLowPriceIndex);
+    const rightNums = values.slice(firstLLowPriceIndex);
+    let total = 0;
+    leftNums.map((num: number): number => (total = total + num));
+    leftNums.push(total);
+    leftNums.concat(rightNums);
+    return leftNums;
 }
