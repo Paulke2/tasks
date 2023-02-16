@@ -61,7 +61,7 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
     const fixedStrings = messages.map((str: string): string =>
         str.endsWith("!") ? str.toUpperCase() : str
     );
-    //i think the line below is removing everything execpt questions
+
     const noQuestions = fixedStrings.filter(
         (question: string): boolean => !question.endsWith("?")
     );
@@ -108,6 +108,9 @@ export function allRGB(colors: string[]): boolean {
 export function makeMath(addends: number[]): string {
     const total = "";
     let intTotal = 0;
+    if (addends.length === 0) {
+        return "0=0";
+    }
     const thePrices = addends.join("+");
     const doubled = addends.map((price: number): number => (intTotal += price));
     return intTotal.toString() + "=" + thePrices;
@@ -126,12 +129,22 @@ export function injectPositive(values: number[]): number[] {
     const firstLLowPriceIndex = values.findIndex(
         (value: number): boolean => value < 0
     );
-
-    const leftNums = values.slice(0, firstLLowPriceIndex);
-    const rightNums = values.slice(firstLLowPriceIndex);
-    let total = 0;
-    leftNums.map((num: number): number => (total = total + num));
-    leftNums.push(total);
-    leftNums.concat(rightNums);
-    return leftNums;
+    if (firstLLowPriceIndex === -1) {
+        const total = values.reduce(
+            (currentTotal: number, num: number) => currentTotal + num,
+            0
+        );
+        const correct = [...values, total];
+        return correct;
+    } else {
+        const left = [...values];
+        left.splice(firstLLowPriceIndex);
+        const Lcount = left.reduce(
+            (currentTotal: number, num: number) => currentTotal + num,
+            0
+        );
+        const test = [...values];
+        test.splice(firstLLowPriceIndex + 1, 0, Lcount);
+        return test;
+    }
 }
