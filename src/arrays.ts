@@ -106,13 +106,12 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    const total = "";
     let intTotal = 0;
     if (addends.length === 0) {
         return "0=0";
     }
     const thePrices = addends.join("+");
-    const doubled = addends.map((price: number): number => (intTotal += price));
+    addends.map((price: number): number => (intTotal += price));
     return intTotal.toString() + "=" + thePrices;
 }
 
