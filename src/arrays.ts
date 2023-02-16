@@ -62,8 +62,8 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
         str.endsWith("!") ? str.toUpperCase() : str
     );
     //i think the line below is removing everything execpt questions
-    const noQuestions = fixedStrings.filter((question: string): boolean =>
-        question.endsWith("?")
+    const noQuestions = fixedStrings.filter(
+        (question: string): boolean => !question.endsWith("?")
     );
 
     return noQuestions;
