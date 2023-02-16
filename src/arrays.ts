@@ -30,7 +30,7 @@ export function tripleNumbers(numbers: number[]): number[] {
  */
 export function stringsToIntegers(numbers: string[]): number[] {
     const stringNums = numbers.map((str: string): number =>
-        str === "0" ? Number(str) : 0
+        parseInt(str) ? parseInt(str) : 0
     );
     return stringNums;
 }
@@ -43,13 +43,13 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    const shorts = amounts.filter((num: string): boolean =>
-        num.startsWith("$")
+    const shorts = amounts.map((num: string): string =>
+        num[0] === "$" ? num.replace("$", "") : num
     );
-    const numbers = shorts.map((str: string): number =>
-        parseInt(str) > 0 ? parseInt(str) : 0
+    const stringNums = shorts.map((str: string): number =>
+        parseInt(str) ? parseInt(str) : 0
     );
-    return numbers;
+    return stringNums;
 };
 
 /**
@@ -108,11 +108,9 @@ export function allRGB(colors: string[]): boolean {
 export function makeMath(addends: number[]): string {
     const total = "";
     let intTotal = 0;
-    for (const num of addends) {
-        total.concat(total, "+", num.toString());
-        intTotal = intTotal + num;
-    }
-    return intTotal.toString() + "=" + total;
+    const thePrices = addends.join("+");
+    const doubled = addends.map((price: number): number => (intTotal += price));
+    return intTotal.toString() + "=" + thePrices;
 }
 
 /**
