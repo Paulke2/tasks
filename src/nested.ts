@@ -6,7 +6,10 @@ import { Question, QuestionType } from "./interfaces/question";
  * that are `published`.
  */
 export function getPublishedQuestions(questions: Question[]): Question[] {
-    return [];
+    const publishedQs = questions.filter(
+        (question: Question): boolean => question.published
+    );
+    return publishedQs;
 }
 
 /**
@@ -15,7 +18,13 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    return [];
+    const fullQuestions = questions.filter(
+        (question: Question): boolean =>
+            question.body.length !== 0 &&
+            question.expected.length !== 0 &&
+            question.options.length !== 0
+    );
+    return fullQuestions;
 }
 
 /***
@@ -26,7 +35,13 @@ export function findQuestion(
     questions: Question[],
     id: number
 ): Question | null {
-    return null;
+    const foundOrNot = questions.find(
+        (question: Question): boolean => question.id === id
+    );
+    if (foundOrNot === undefined) {
+        return null;
+    }
+    return foundOrNot;
 }
 
 /**
@@ -34,29 +49,44 @@ export function findQuestion(
  * with the given `id`.
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
-    return [];
+    const removed = questions.filter(
+        (question: Question): boolean => question.id === id
+    );
+    return removed;
 }
-
 /***
  * Consumes an array of questions and returns a new array containing just the names of the
  * questions, as an array.
  */
 export function getNames(questions: Question[]): string[] {
-    return [];
+    const nameList = questions.map(
+        (question: Question): string => question.name
+    );
+    return nameList;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of all their points added together.
  */
 export function sumPoints(questions: Question[]): number {
-    return 0;
+    const pointsTotal = questions.reduce(
+        (currentSum: number, question: Question) =>
+            currentSum + question.points,
+        0
+    );
+    return pointsTotal;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of the PUBLISHED questions.
  */
 export function sumPublishedPoints(questions: Question[]): number {
-    return 0;
+    const pointsTotal = questions.reduce(
+        (currentSum: number, question: Question) =>
+            question.published ? currentSum + question.points : currentSum,
+        0
+    );
+    return pointsTotal;
 }
 
 /***
