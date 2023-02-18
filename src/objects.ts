@@ -38,10 +38,11 @@ export function makeBlankQuestion(
  * HINT: Look up the `trim` and `toLowerCase` functions.
  */
 export function isCorrect(question: Question, answer: string): boolean {
-    if (
-        question.expected.toLowerCase === answer.toLowerCase ||
-        question.expected === answer
-    ) {
+    if (question.expected === answer) {
+        return true;
+    } else if (question.expected === answer.trim()) {
+        return true;
+    } else if (question.expected.toLowerCase() === answer.toLowerCase()) {
         return true;
     } else {
         return false;
@@ -58,7 +59,7 @@ export function isValid(question: Question, answer: string): boolean {
     if (question.type === "short_answer_question") {
         return true;
     } else {
-        if (question.expected === answer) {
+        if (question.options.includes(answer)) {
             return true;
         }
         return false;
@@ -72,7 +73,8 @@ export function isValid(question: Question, answer: string): boolean {
  * name "My First Question" would become "9: My First Q".
  */
 export function toShortForm(question: Question): string {
-    return question.id + ": " + question.name.slice(10);
+    const newString = question.name.slice(0, 10);
+    return question.id + ": " + newString;
 }
 
 /**
@@ -105,7 +107,7 @@ export function toMarkdown(question: Question): string {
             "- " +
             question.options[2];
     } else {
-        options_String = question.name;
+        return "# " + question.name + "\n" + question.body;
     }
     return "# " + question.name + "\n" + question.body + "\n" + options_String;
 }
@@ -157,7 +159,7 @@ export function duplicateQuestion(id: number, oldQuestion: Question): Question {
  */
 export function addOption(question: Question, newOption: string): Question {
     const optionList = [...question.options, newOption];
-    let newQ = { ...question, options: optionList };
+    const newQ = { ...question, options: optionList };
     return newQ;
 }
 
