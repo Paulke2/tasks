@@ -21,8 +21,8 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
     const fullQuestions = questions.filter(
         (question: Question): boolean =>
-            question.body.length !== 0 &&
-            question.expected.length !== 0 &&
+            question.body !== "" &&
+            question.expected !== "" &&
             question.options.length !== 0
     );
 
@@ -255,13 +255,19 @@ export function editOption(
         );
         return newQ;
     } else {
-        const newQ = questions.map(
+        const newQ = questions.findIndex(
+            (question: Question): boolean => question.id === targetId
+        );
+        const arr = [...questions[newQ].options];
+        arr.splice(targetOptionIndex, 1, newOption);
+        const Final = questions.map(
             (question: Question): Question =>
                 question.id === targetId
-                    ? { ...question, options: [...question.options, newOption] }
+                    ? { ...question, options: arr }
                     : question
         );
-        return newQ;
+        //we cound slice the copy array index, then sread to a new array
+        return Final;
     }
 }
 
