@@ -20,15 +20,13 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
     const fullQuestions = questions.filter(
-        (question: Question): boolean => question.body.length !== 0
+        (question: Question): boolean =>
+            question.body.length !== 0 &&
+            question.expected.length !== 0 &&
+            question.options.length !== 0
     );
-    const full2Questions = fullQuestions.filter(
-        (question: Question): boolean => question.expected.length !== 0
-    );
-    const full3Questions = full2Questions.filter(
-        (question: Question): boolean => question.options.length !== 0
-    );
-    return full3Questions;
+
+    return fullQuestions;
 }
 
 /***
@@ -162,14 +160,14 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
-    const temp = { ...questions };
-    temp.filter(
+    const temp = [...questions];
+    const filtered = temp.filter(
         (question: Question): boolean =>
             question.type === "multiple_choice_question"
     );
-    if (temp.length === 0) {
+    if (filtered.length === 0) {
         return true;
-    } else if (temp.length === questions.length) {
+    } else if (filtered.length === questions.length) {
         return true;
     } else {
         return false;
@@ -260,7 +258,7 @@ export function editOption(
         const newQ = questions.map(
             (question: Question): Question =>
                 question.id === targetId
-                    ? { ...question, options: [targetOptionIndex.toString()] }
+                    ? { ...question, options: [...question.options, newOption] }
                     : question
         );
         return newQ;
@@ -281,8 +279,8 @@ export function duplicateQuestionInArray(
     const index: number = questions.findIndex(
         (question: Question): boolean => question.id === targetId
     );
-    const newQ = duplicateQuestion(targetId, questions[index]);
-    const doubled = { ...questions };
+    const newQ = duplicateQuestion(newId, questions[index]);
+    const doubled = [...questions];
     doubled.splice(index + 1, 0, newQ);
     return doubled;
 }
