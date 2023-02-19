@@ -20,12 +20,15 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
     const fullQuestions = questions.filter(
-        (question: Question): boolean =>
-            question.body.length !== 0 &&
-            question.expected.length !== 0 &&
-            question.options.length !== 0
+        (question: Question): boolean => question.body.length !== 0
     );
-    return fullQuestions;
+    const full2Questions = fullQuestions.filter(
+        (question: Question): boolean => question.expected.length !== 0
+    );
+    const full3Questions = full2Questions.filter(
+        (question: Question): boolean => question.options.length !== 0
+    );
+    return full3Questions;
 }
 
 /***
@@ -51,7 +54,7 @@ export function findQuestion(
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
     const removed = questions.filter(
-        (question: Question): boolean => question.id === id
+        (question: Question): boolean => question.id !== id
     );
     return removed;
 }
@@ -108,17 +111,22 @@ id,name,options,points,published
  * Check the unit tests for more examples!
  */
 export function toCSV(questions: Question[]): string {
-    const header = "id, name, options, points, published";
+    const header = "id,name,options,points,published";
     const rows = questions.map(
         (question: Question): string =>
+            "\n" +
             question.id +
+            "," +
             question.name +
+            "," +
             question.options.length +
+            "," +
             question.points +
+            "," +
             question.published
     );
-    rows.join("\n");
-    return header + "\n" + rows;
+    const Rstring = rows.join("");
+    return header + Rstring;
 }
 
 /**
@@ -180,7 +188,7 @@ export function addNewQuestion(
     type: QuestionType
 ): Question[] {
     const newQ = makeBlankQuestion(id, name, type);
-    const newList = { ...questions, newQ };
+    const newList = [...questions, newQ];
     return newList;
 }
 
