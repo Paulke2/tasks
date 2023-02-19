@@ -1,5 +1,6 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
+import { duplicateQuestion, makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -153,7 +154,18 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
-    return false;
+    const temp = { ...questions };
+    temp.filter(
+        (question: Question): boolean =>
+            question.type === "multiple_choice_question"
+    );
+    if (temp.length === 0) {
+        return true;
+    } else if (temp.length === questions.length) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /***
@@ -167,7 +179,9 @@ export function addNewQuestion(
     name: string,
     type: QuestionType
 ): Question[] {
-    return [];
+    const newQ = makeBlankQuestion(id, name, type);
+    const newList = { ...questions, newQ };
+    return newList;
 }
 
 /***
@@ -180,7 +194,11 @@ export function renameQuestionById(
     targetId: number,
     newName: string
 ): Question[] {
-    return [];
+    const newQ = questions.map(
+        (question: Question): Question =>
+            question.id === targetId ? { ...question, name: newName } : question
+    );
+    return newQ;
 }
 
 /***
@@ -195,7 +213,15 @@ export function changeQuestionTypeById(
     targetId: number,
     newQuestionType: QuestionType
 ): Question[] {
-    return [];
+    const newQ = questions.map(
+        (question: Question): Question =>
+            question.id === targetId
+                ? newQuestionType === "multiple_choice_question"
+                    ? { ...question, type: newQuestionType }
+                    : { ...question, type: newQuestionType, options: [] }
+                : question
+    );
+    return newQ;
 }
 
 /**
@@ -214,7 +240,23 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string
 ): Question[] {
-    return [];
+    if (targetOptionIndex === -1) {
+        const newQ = questions.map(
+            (question: Question): Question =>
+                question.id === targetId
+                    ? { ...question, options: [...question.options, newOption] }
+                    : question
+        );
+        return newQ;
+    } else {
+        const newQ = questions.map(
+            (question: Question): Question =>
+                question.id === targetId
+                    ? { ...question, options: [targetOptionIndex.toString()] }
+                    : question
+        );
+        return newQ;
+    }
 }
 
 /***
@@ -228,5 +270,11 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    return [];
+    const index: number = questions.findIndex(
+        (question: Question): boolean => question.id === targetId
+    );
+    const newQ = duplicateQuestion(targetId, questions[index]);
+    const doubled = { ...questions };
+    doubled.splice(index + 1, 0, newQ);
+    return doubled;
 }
