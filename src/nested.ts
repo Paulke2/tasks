@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
 import { duplicateQuestion, makeBlankQuestion } from "./objects";
@@ -19,14 +20,18 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    const fullQuestions = questions.filter(
+    const fullQuestions = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+
+    const final = fullQuestions.filter(
         (question: Question): boolean =>
-            question.body !== "" &&
-            question.expected !== "" &&
+            question.body !== "" ||
+            question.expected !== "" ||
             question.options.length !== 0
     );
 
-    return fullQuestions;
+    return final;
 }
 
 /***
