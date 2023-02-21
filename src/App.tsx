@@ -24,7 +24,9 @@ function App(): JSX.Element {
                     <Col>
                         <div className="App-col-header"> More about me</div>
                         <img
-                            src="../assets/images/myDogs.jpg"
+                            src={require("./myDogs.jpg")}
+                            width="375"
+                            height="500"
                             alt="these are my dogs Maggie and Chloe"
                         />
                     </Col>
