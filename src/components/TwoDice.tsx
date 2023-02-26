@@ -18,12 +18,16 @@ export function TwoDice(): JSX.Element {
         <div>
             <span>
                 <Button onClick={() => setRollL(d6())}>Roll Left</Button>
-                Left: {rollL}.
             </span>
             <span>
                 <Button onClick={() => setRollR(d6())}>Roll Right</Button>
-                Right: {rollR} Status: {rollR === rollL ? "Lose" : "win"}.
+                {rollR === 1 && rollL === 1 ? "you Lose at dice      \n" : ""}
+                {rollR !== 1 && rollL === rollR
+                    ? "you Win at dice      \n"
+                    : ""}
             </span>
+            <span data-testid="left-die">die one: {rollL}</span>
+            <span data-testid="right-die">die two: {rollR}</span>
         </div>
     );
 }
