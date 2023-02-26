@@ -3,8 +3,6 @@ import { Button } from "react-bootstrap";
 import { QuestionType } from "../interfaces/question";
 
 export function ChangeType(): JSX.Element {
-    const multi = "mult";
-    const one = "free";
     const [value, setValue] = useState<QuestionType>("short_answer_question");
     return (
         <div>

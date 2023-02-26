@@ -8,16 +8,21 @@ export function StartAttempt(): JSX.Element {
     return (
         <span>
             <Button
-                onClick={() => setProgress(true)}
+                onClick={() => {
+                    setProgress(true);
+                    setAttempts(attempts - 1);
+                }}
                 disabled={progress === true || attempts === 0}
             >
                 Start Quiz
             </Button>
             {progress && <div>quiz progress is Active</div>}.
-            <Button onClick={() => setProgress(false)}>Stop Quiz</Button>
+            <Button onClick={() => setProgress(false)} disabled={!progress}>
+                Stop Quiz
+            </Button>
             {!progress && <div>quiz progress is Stopped</div>}.
             <Button
-                onClick={() => setAttempts(attempts - 1)}
+                onClick={() => setAttempts(attempts + 1)}
                 disabled={progress}
             >
                 Mulligan
