@@ -13,28 +13,31 @@ export function CycleHoliday(): JSX.Element {
     const Holiday_TRANSITIONS_alpha: Record<HolidayType, HolidayType> = {
         "🎄": "🎇",
         "🎇": "🎃",
-        "🎃": "🦃",
-        "🦃": "🪔",
-        "🪔": "🎄"
+        "🎃": "🪔",
+        "🪔": "🦃",
+        "🦃": "🎄"
     };
-    const [alpha, setAlpha] = useState<HolidayType>("🎄");
-    const [year, setYear] = useState<HolidayType>("🪔");
-
+    const [holiday, setHoliday] = useState<HolidayType>("🎄");
     return (
         <div>
             <span>
                 <Button
-                    onClick={() => setAlpha(Holiday_TRANSITIONS_alpha[alpha])}
+                    onClick={() =>
+                        setHoliday(Holiday_TRANSITIONS_alpha[holiday])
+                    }
                 >
                     Advance by Alphabet
                 </Button>
-                Holiday: {alpha}
             </span>
             <span>
-                <Button onClick={() => setYear(Holiday_TRANSITIONS_year[year])}>
+                <Button
+                    onClick={() =>
+                        setHoliday(Holiday_TRANSITIONS_year[holiday])
+                    }
+                >
                     Advance by Year
                 </Button>
-                Holiday: {year}
+                Holiday: {holiday}
             </span>
         </div>
     );
