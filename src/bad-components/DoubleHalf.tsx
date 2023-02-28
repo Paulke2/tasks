@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import { dhValue, setDhValue } from "./DoubleHalfState";
+interface RevealValue {
+    // The type is "a function that consumes a boolean and returns nothing"
+    setDhValue: (setDhValue: number) => void;
+    dhValue: number;
+}
 
-function Doubler(): JSX.Element {
+function Doubler({ setDhValue, dhValue }: RevealValue): JSX.Element {
     return <Button onClick={() => setDhValue(2 * dhValue)}>Double</Button>;
 }
 
-function Halver(): JSX.Element {
+function Halver({ setDhValue, dhValue }: RevealValue): JSX.Element {
     return <Button onClick={() => setDhValue(0.5 * dhValue)}>Halve</Button>;
 }
 
@@ -19,8 +23,8 @@ export function DoubleHalf(): JSX.Element {
             <div>
                 The current value is: <span>{dhValue}</span>
             </div>
-            <Doubler></Doubler>
-            <Halver></Halver>
+            <Doubler setDhValue={setDhValue} dhValue={dhValue}></Doubler>
+            <Halver setDhValue={setDhValue} dhValue={dhValue}></Halver>
         </div>
     );
 }
