@@ -13,7 +13,8 @@ export function EditMode(): JSX.Element {
             <Form.Check
                 type="switch"
                 id="edit mode check"
-                label="edit?"
+                label="edit mode"
+                inline
                 checked={editMode}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setEditMode(event.target.checked)
@@ -37,6 +38,7 @@ export function EditMode(): JSX.Element {
                     type="checkbox"
                     id="is-student-check"
                     label="student?"
+                    inline
                     checked={stu}
                     disabled={!editMode}
                     hidden={!editMode}
@@ -46,11 +48,11 @@ export function EditMode(): JSX.Element {
                 />
                 {editMode
                     ? stu
-                        ? "Your Name is a student"
-                        : "Your Name is not a student"
+                        ? "\nYour Name is a student"
+                        : "\nYour Name is not a student"
                     : stu
-                    ? name + " is a student"
-                    : name + " is not a student"}
+                    ? "\n" + name + " is a student"
+                    : "\n" + name + " is not a student"}
             </div>
         </div>
     );
